@@ -11,11 +11,29 @@ namespace ConsoleApplication2
     {
         static void Main(string[] args)
         {
-            List<int> orderedList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            List<int> orderedList = new List<int> { 1, 2, 3, 4, 6, 7, 8, 9 };
             List<int> unorderedList = new List<int> { 5, 1, 3, 8, 0, 6, 9, 2, 4, 7};
 
-            Console.WriteLine(ReturnIndexGreaterOrEqual(5, orderedList));
+            //Console.WriteLine(ReturnIndexGreaterOrEqual(5, orderedList));
 
+            //PrintList(orderedList);
+            //Shift(ref orderedList, 4);
+            //Insertion(ref orderedList, 5);
+            //PrintList(orderedList);
+
+            PrintList(Random(5));
+
+            Console.ReadKey();
+
+        }
+
+        public static void PrintList(List<int> list)
+        {
+            foreach(int n in list)
+            {
+                Console.Write(n + " ");
+            }
+            Console.WriteLine();
         }
 
         public static int ReturnIndexGreaterOrEqual(int value, List<int> list)
@@ -28,6 +46,78 @@ namespace ConsoleApplication2
             }
             return list.Count;
         }
+
+        public static void Shift(ref List<int> list, int index)
+        {
+            List<int> tempList = new List<int>(list);
+            tempList.Add(0);
+            Console.WriteLine(tempList.Count);
+            Console.WriteLine(list.Count);
+
+            for (int i = list.Count() - 1; i >= index; i--)
+            {
+                tempList[i + 1] = tempList[i];
+            }
+            tempList[index + 1] = 0;
+            list = tempList;
+        }
+
+        public static void Insertion(ref List<int> list, int value)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                //supposed to insert here at the appropriate location, which would seem to be where list[i] >= to value, but i think when paired
+                //with the above shift method it is actually supposed to go in at where list[i] = whatever the filler value in shift is, above I use zero
+                //wait not im supposed to call shift from in here i think
+                if(list[i] >= value)
+                {
+                    int temp = list[i];
+                    Shift(ref list, i);
+                    list[i + 1] = temp;
+                    list[i] = value;
+                    return;
+                }
+            }
+        }
+
+        public static List<int> Random(int n)
+        {
+            List<int> list = new List<int>();
+            Random rand = new Random();
+            int num = 0;
+            int prevNum = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                num = rand.Next(2, 5);//hardcoded values, should start from at least 2 though to prevent sequential values
+                list.Add(num + prevNum);
+                prevNum = list[i];
+            }
+
+            //tests for sequential or not in order values
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                if(list[i] == list[i+1] || list[i] == (list[i+1] + 1))
+                {
+                    throw new Exception("identical or sequential values detected");
+                }
+                if(list[i] > list[i + 1])
+                {
+                    throw new Exception("elements not in order detected");
+                }
+                
+            }
+
+            return list;
+
+        }
+
+        public static void CreateAndInsert()
+        {
+            
+        }
+
+
 
     }
 }
