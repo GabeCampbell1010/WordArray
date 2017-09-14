@@ -129,12 +129,13 @@ namespace ConsoleApplication2
                 }
 
                 int ran = num.Next(0, i);
-
+                Console.WriteLine("next number before insertion is one up from the random number"+list[ran+1]);
                 System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();//start stopwatch
                 Insertion(ref list, ran);//just do one insertion per list?//list sizes all go up by 1 because of the insertion btw
                 watch.Stop();//end stopwatch
 
                 Console.WriteLine("inserted: " + ran);
+                Console.WriteLine("but after insertion it is the same and we have two numbers in a row, the inserted value and its duplicate that was already there "+list[ran+1]);
                 long timeElapsedInMilliseconds = watch.ElapsedMilliseconds;//time elapses for a million searches on list of size i
 
                 Console.WriteLine("A list of size: {0} took {1} milliseconds to insert a random number", list.Count, timeElapsedInMilliseconds);
