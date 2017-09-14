@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+//Gabriel Campbell u0861355
 
 namespace ConsoleApplication2
 {
@@ -21,7 +24,9 @@ namespace ConsoleApplication2
             //Insertion(ref orderedList, 5);
             //PrintList(orderedList);
 
-            PrintList(Random(5));
+            //PrintList(Random(5));
+
+            CreateAndInsert();
 
             Console.ReadKey();
 
@@ -51,8 +56,8 @@ namespace ConsoleApplication2
         {
             List<int> tempList = new List<int>(list);
             tempList.Add(0);
-            Console.WriteLine(tempList.Count);
-            Console.WriteLine(list.Count);
+            //Console.WriteLine(tempList.Count);
+            //Console.WriteLine(list.Count);
 
             for (int i = list.Count() - 1; i >= index; i--)
             {
@@ -66,9 +71,6 @@ namespace ConsoleApplication2
         {
             for (int i = 0; i < list.Count; i++)
             {
-                //supposed to insert here at the appropriate location, which would seem to be where list[i] >= to value, but i think when paired
-                //with the above shift method it is actually supposed to go in at where list[i] = whatever the filler value in shift is, above I use zero
-                //wait not im supposed to call shift from in here i think
                 if(list[i] >= value)
                 {
                     int temp = list[i];
@@ -112,9 +114,38 @@ namespace ConsoleApplication2
 
         }
 
-        public static void CreateAndInsert()
-        {
+        public static void CreateAndInsert()//i think that maybe the instructions are supposed to ask us something more like insert a random value a million times
+        {//because right now it happens instantly
+            StringBuilder csv = new StringBuilder();
+            Random num = new Random();
             
+
+            for (int i = 100; i <= 10000; i += 100)
+            {
+                List<int> list = new List<int>();
+                for (int j = 0; j < i; j++)
+                {
+                    list.Add(j);//just add a value matching each index
+                }
+
+                int ran = num.Next(0, i);
+
+                System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();//start stopwatch
+                Insertion(ref list, ran);//just do one insertion per list?//list sizes all go up by 1 because of the insertion btw
+                watch.Stop();//end stopwatch
+
+                Console.WriteLine("inserted: " + ran);
+                long timeElapsedInMilliseconds = watch.ElapsedMilliseconds;//time elapses for a million searches on list of size i
+
+                Console.WriteLine("A list of size: {0} took {1} milliseconds to insert a random number", list.Count, timeElapsedInMilliseconds);
+                string newLine = $"{list.Count},{timeElapsedInMilliseconds}";
+                csv.AppendLine(newLine);
+            }
+            string filePath = @"C:\Users\Gabe\Documents\BinarySearch.ods";//this was the file path local to my computer of course
+            string csvString = csv.ToString();
+            //File.WriteAllText(filePath, csvString);
+            Console.ReadKey();
+
         }
 
 
